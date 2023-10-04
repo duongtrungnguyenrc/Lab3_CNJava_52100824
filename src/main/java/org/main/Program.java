@@ -188,7 +188,7 @@ public class Program
 
                 case 0:
                     System.out.println("Exiting...");
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid option. Please choose a valid option.");
                     break;
