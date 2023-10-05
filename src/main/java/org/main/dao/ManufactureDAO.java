@@ -11,18 +11,16 @@ import java.util.List;
 
 public class ManufactureDAO<T, k> implements Repository<T, k> {
     private Session session = null;
-    private Transaction transaction = null;
 
     public ManufactureDAO(){
         this.session = HibernateUtils.getSessionFactory().openSession();
-        this.transaction = this.session.beginTransaction();
     }
 
     @Override
     public boolean add(k params) {
         try {
             this.session.save((Manufacture) params);
-            this.transaction.commit();
+            this.session.beginTransaction().commit();
             return true;
         }
         catch (Exception e) {
@@ -114,6 +112,13 @@ public class ManufactureDAO<T, k> implements Repository<T, k> {
         Query<Manufacture> query = session.createQuery(hql, Manufacture.class);
         query.setMaxResults(1);
         return query.uniqueResult();
+    }
+
+    public boolean isEmptyData() {
+        String hql = "SELECT COUNT(*) FROM Manufacture";
+        Query<Long> query = session.createQuery(hql, Long.class);
+        Long count = query.uniqueResult();
+        return count == 0;
     }
 
     public void closeSession() {

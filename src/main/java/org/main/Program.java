@@ -1,4 +1,5 @@
 package org.main;
+import org.hibernate.query.Query;
 import org.main.dao.ManufactureDAO;
 import org.main.dao.PhoneDAO;
 import org.main.domain.Manufacture;
@@ -13,6 +14,8 @@ public class Program
 {
     public static void main(String[] args) {
         LogManager.getLogManager().getLogger("").setLevel(Level.SEVERE);
+        initial();
+
         Scanner scanner = new Scanner(System.in);
         PhoneDAO<Phone, Integer> phoneDAO = new PhoneDAO<>();
         ManufactureDAO<Manufacture, Integer> manufactureDAO = new ManufactureDAO<>();
@@ -200,5 +203,12 @@ public class Program
         scanner.close();
     }
 
-
+    static final void initial() {
+        ManufactureDAO daoObject = new ManufactureDAO<>();
+        if(daoObject.isEmptyData()) {
+            daoObject.add(new Manufacture("Apple", "Cupertino", 1000));
+            daoObject.add(new Manufacture("Samsung", "Seocho-daer", 10000));
+            daoObject.add(new Manufacture("Huawei", "Bantian", 5000));
+        }
+    }
 }
